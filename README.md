@@ -5,4 +5,6 @@
 
 [probability-formulas.pdf](https://georgeweigt.github.io/probability-formulas.pdf)
 
+[quantum-harmonic-oscillator.pdf](https://georgeweigt.github.io/quantum-harmonic-oscillator.pdf)
+
 [time-series-formulas.pdf](https://georgeweigt.github.io/time-series-formulas.pdf)
