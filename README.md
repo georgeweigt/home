@@ -1,4 +1,6 @@
 
+[avogadro.pdf](https://georgeweigt.github.io/avogadro.pdf)
+
 [examples.pdf](https://georgeweigt.github.io/examples.pdf)
 
 [gordon-decomposition.pdf](https://georgeweigt.github.io/gordon-decomposition.pdf)
