@@ -9,4 +9,6 @@
 
 [quantum-harmonic-oscillator.pdf](https://georgeweigt.github.io/quantum-harmonic-oscillator.pdf)
 
+[space-shuttle-and-corvette.pdf](https://georgeweigt.github.io/space-shuttle-and-corvette.pdf)
+
 [time-series-formulas.pdf](https://georgeweigt.github.io/time-series-formulas.pdf)
