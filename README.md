@@ -14,3 +14,5 @@
 [space-shuttle-and-corvette.pdf](https://georgeweigt.github.io/space-shuttle-and-corvette.pdf)
 
 [time-series-formulas.pdf](https://georgeweigt.github.io/time-series-formulas.pdf)
+
+[total-probability.pdf](https://georgeweigt.github.io/total-probability.pdf)
