@@ -1,0 +1,169 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{slashed}
+\usepackage{tikz}
+\usepackage{verbatim}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,urlcolor=blue}
+
+\begin{document}
+
+\noindent
+Example 1. Compute the probability $p$ that 23 people have different birthdays.
+$$
+p=\frac{365}{365}\times\frac{364}{365}\times\frac{363}{365}\times\cdots
+\times\frac{343}{365}=\frac{365!/(365-23)!}{365^{23}}
+$$
+
+\noindent
+The probability that at least two people have the same birthday is $1-p$.
+
+\begin{verbatim}
+"Product method"
+p = product(k,1,23,(365-k+1)/365)
+float(p)
+"Factorial method"
+p = 365! / (365 - 23)! / 365^23
+float(p)
+"Probability of at least one shared birthday"
+1.0 - p
+\end{verbatim}
+
+\bigskip
+\hrule
+
+\bigskip
+\noindent
+Example 2. Show that
+$$
+\frac{E^2+m^2+p^2\cos\theta}{8p^4}
+=\frac{1-\beta^2\sin^2\theta/2}{4p^2\beta^2}
+$$
+where $p=\sqrt{E^2-m^2}$ and $\beta=p/E$.
+
+\begin{verbatim}
+p = sqrt(E^2 - m^2)
+beta = p/E
+A = (E^2 + m^2 + p^2 cos(theta)) / (8 p^4)
+B = (1 - beta^2 sin(theta/2)^2) / (4 p^2 beta^2)
+A == B
+\end{verbatim}
+
+\bigskip
+\hrule
+
+\bigskip
+\noindent
+Example 3. Let
+$$
+{\bf E}=
+\begin{pmatrix}
+A\sin(kz-\omega t+\phi)\\0\\0
+\end{pmatrix}
+\qquad\text{and}\qquad
+{\bf B}=
+\begin{pmatrix}
+0\\A\sin(kz-\omega t+\phi)\\0
+\end{pmatrix}
+$$
+where $k=\omega/c$.
+Verify that $\bf E$ and $\bf B$ are solutions to the free-field Maxwell equations
+\begin{gather*}
+\nabla\cdot{\bf E}=0\\
+\nabla\cdot{\bf B}=0\\
+\nabla\times{\bf E}+\frac{1}{c}\frac{\partial}{\partial t}{\bf B}=\begin{pmatrix}0\\0\\0\end{pmatrix}\\
+\nabla\times{\bf B}-\frac{1}{c}\frac{\partial}{\partial t}{\bf E}=\begin{pmatrix}0\\0\\0\end{pmatrix}
+\end{gather*}
+
+\begin{verbatim}
+k = omega/c
+E = (A sin(k z - omega t + phi), 0, 0)
+B = (0, A sin(k z - omega t + phi), 0)
+div(E) == 0
+div(B) == 0
+curl(E) + d(B,t)/c == 0
+curl(B) - d(E,t)/c == 0
+\end{verbatim}
+
+\bigskip
+\hrule
+
+\bigskip
+\noindent
+Example 4. Let
+$$
+\psi=\exp(ik_xx+ik_yy+ik_zz-i\omega t)
+$$
+
+\noindent
+where
+$$
+\omega=\sqrt{k_x^2+k_y^2+k_z^2+m^2}
+$$
+
+\noindent
+Verify that $\psi$ is a solution to the Klein-Gordon equation
+$$
+\frac{\partial^2}{\partial t^2}\psi
+-\frac{\partial^2}{\partial x^2}\psi
+-\frac{\partial^2}{\partial y^2}\psi
+-\frac{\partial^2}{\partial z^2}\psi
++m^2\psi=0
+$$
+
+\begin{verbatim}
+omega = sqrt(kx^2 + ky^2 + kz^2 + m^2)
+psi = exp(i kx x + i ky y + i kz z - i omega t)
+d(psi,t,t) - d(psi,x,x) - d(psi,y,y) - d(psi,z,z) + m^2 psi == 0
+\end{verbatim}
+
+\bigskip
+\hrule
+
+\bigskip
+\noindent
+Example 5. Show that
+$$
+u_1\bar{u}_1+u_2\bar{u}_2=(E+m)(\slashed{p}+m)
+$$
+
+\noindent
+where
+$$
+E=\sqrt{p_x^2+p_y^2+p_z^2+m^2}
+$$
+
+\noindent
+The spinors are
+$$
+u_1=\begin{pmatrix}E+m\\0\\p_z\\p_x+ip_y\end{pmatrix}
+\qquad
+u_2=\begin{pmatrix}0\\E+m\\p_x-ip_y\\-p_z\end{pmatrix}
+$$
+
+\noindent
+The adjoint of $u$ is $\bar{u}=u^\dag\gamma^0$.
+Note that $\bar{u}$ is a row vector hence $u\bar{u}$ is an outer product.
+
+\begin{verbatim}
+E = sqrt(px^2 + py^2 + pz^2 + m^2)
+u1 = (E + m, 0, pz, px + i py)
+u2 = (0, E + m, px - i py, -pz)
+p = (E, px, py, pz)
+I = ((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1))
+gmunu = ((1,0,0,0),(0,-1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma0 = ((1,0,0,0),(0,1,0,0),(0,0,-1,0),(0,0,0,-1))
+gamma1 = ((0,0,0,1),(0,0,1,0),(0,-1,0,0),(-1,0,0,0))
+gamma2 = ((0,0,0,-i),(0,0,i,0),(0,i,0,0),(-i,0,0,0))
+gamma3 = ((0,0,1,0),(0,0,0,-1),(-1,0,0,0),(0,1,0,0))
+gamma = (gamma0,gamma1,gamma2,gamma3)
+pslash = dot(gmunu,p,gamma)
+bar(u) = dot(conj(u),gamma0)
+A = outer(u1,bar(u1)) + outer(u2,bar(u2))
+B = (E + m) (pslash + m I)
+A == B
+\end{verbatim}
+
+\end{document}

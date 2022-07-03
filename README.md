@@ -1,4 +1,6 @@
 
+[examples.pdf](https://georgeweigt.github.io/examples.pdf)
+
 [gordon-decomposition.pdf](https://georgeweigt.github.io/gordon-decomposition.pdf)
 
 [helium-integral.pdf](https://georgeweigt.github.io/helium-integral.pdf)
