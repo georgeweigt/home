@@ -1,0 +1,398 @@
+\documentclass[12pt]{article}
+\usepackage{parskip}
+\begin{document}
+
+{\bf Question 19}
+
+\begin{verbatim}
+data work.empsalary
+merge work.employee (in = inemp) work.salary (in = insal);
+by name;
+if inemp and insal;
+run;
+\end{verbatim}
+
+\bigskip
+{\bf Notes}
+\begin{enumerate}
+\item
+The BY statement makes it a match-merge.
+\item
+The IN= option creates a boolean variable that indicates
+whether the data set contributed data to the current observation.
+\item
+The subsetting IF statement requires both data sets to contribute
+to the observation.
+\end{enumerate}
+
+\newpage
+
+{\bf Question 28}
+
+The following SAS program is submitted.
+
+\begin{verbatim}
+data work.test;
+First = 'Ipswich, England';
+City = substr(First,1,7);
+City_Country = City!!' , '!!‘England';
+run;
+\end{verbatim}
+
+Which one of the following is the value of the variable CITY\_COUNTRY
+in the output data set?
+
+\begin{tabular}{ll}
+A. & \verb$Ipswich!!$\\
+B. & \verb$Ipswich, England$\\
+C. & \verb$Ipswich, 'England'$\\
+D. & \verb$Ipswich          , England$
+\end{tabular}
+
+Answer: D
+
+\bigskip
+{\bf Notes}
+
+\begin{enumerate}
+\item
+The trick is that the compiler gives CITY a length
+equal to the length of FIRST since CITY has not been given a length previously.
+\item
+Recall that SAS does static initialization of character variable lengths.
+The SUBSTR function could potentially use a variable for the
+length argument instead of a literal.
+In that case the compiler would not be able to determine the SUBSTR length
+since a variable has no value at compile-time.
+Hence for consistency the SUBSTR length argument is not used
+to set the length of CITY.
+\item
+The !!~does string concatenation.
+\end{enumerate}
+
+\newpage
+
+{\bf Question 29}
+
+The following SAS program is submitted.
+
+\begin{verbatim}
+data numrecords;
+infile ‘file-specification’;
+input@1 patient $15.
+relative$ 16-26@;
+if relative = ‘children’ then
+input diagnosis $15. @;
+else if relative = ‘parents’ then
+input @28 doctor $15.
+clinic $ 44-53
+@54diagnosis $15. @;
+input age;
+run;
+\end{verbatim}
+
+How many raw data records are read during each iteration of the DATA step during execution?
+
+\begin{tabular}{ll}
+A. & 1\\
+B. & 2\\
+C. & 3\\
+D. & 4
+\end{tabular}
+
+Answer: A
+
+\bigskip
+{\bf Notes}
+
+\begin{enumerate}
+\item
+The trick is the trailing at-sign.
+The trailing at-sign holds the current input record so it can be read again
+by another INPUT statement.
+\end{enumerate}
+
+\newpage
+
+{\bf Question 30}
+
+The following SAS program is submitted.
+
+\begin{verbatim}
+data work.empsalary;
+set work.people (in = inemp)
+work.money (in = insal);
+if insal and inemp;
+run;
+\end{verbatim}
+
+The SAS data set WORK.PEOPLE has 5 observations,
+and the data set WORK.MONEY has 7 observations.
+
+How many observations will the data set WORK.EMPSALARY contain?
+
+\begin{tabular}{ll}
+A. & 0\\
+B. & 5\\
+C. & 7\\
+D. & 12
+\end{tabular}
+
+Answer: A
+
+\bigskip
+{\bf Notes}
+
+\begin{enumerate}
+\item
+All of the observations are read from the first data set,
+then all of the observations are read from the second data set.
+There is never a case when both data sets contribute to the
+same observation.
+Hence the subsetting ``if'' statement is never true.
+\item
+See Prep Guide p.~367.
+\end{enumerate}
+
+\newpage
+
+{\bf Question 31}
+
+The contents of the raw data file SIZE are listed below.
+
+\begin{verbatim}
+----|----10---|----20---|----30
+72 95
+\end{verbatim}
+
+The following SAS program is submitted.
+
+\begin{verbatim}
+data test;
+infile ‘size’;
+input@1 height 2. @4 weight 2;
+run;
+\end{verbatim}
+
+Which one of the following is the value of the variable
+WEIGHT in the output data set?
+
+\begin{tabular}{ll}
+A. & 2\\
+B. & 72\\
+C. & 95\\
+D. & . (missing numeric value)
+\end{tabular}
+
+Answer: A
+
+\bigskip
+{\bf Notes}
+
+\begin{enumerate}
+\item
+In the INPUT statement, WEIGHT is followed by 2 which is a column position,
+not ``2.''~which would be an informat.
+\end{enumerate}
+
+\newpage
+
+{\bf Question 32}
+
+The observations in the SAS data set WORK.TEST are ordered by the values
+of the variable SALARY.
+
+The following SAS program is submitted.
+
+\begin{verbatim}
+proc sort data = work.test out = work.testsorted;
+by name;
+run;
+\end{verbatim}
+
+Which one of the following is the result of the SAS program?
+
+{\small
+\begin{tabular}{ll}
+A. & The data set WORK.TEST is stored in ascending order
+by values of the NAME variable.\\
+B. & The data set WORK.TEST is stored in descending order
+by values of the NAME variable\\
+C. & The data set WORK.TESTSORTED is stored in ascending order
+by values of the NAME variable.\\
+D. & The data set WORK.TESTSORTED is stored in descending order
+by values of the NAME variable.
+\end{tabular}
+}
+
+Answer: C
+
+\bigskip
+{\bf Notes}
+
+\begin{enumerate}
+\item
+The default sort order is ascending.
+\end{enumerate}
+
+\newpage
+
+{\bf Question 33}
+
+The following SAS program is submitted.
+
+\begin{verbatim}
+data allobs;
+set sasdata.origin (firstobs = 75 obs = 499);
+run;
+\end{verbatim}
+
+The SAS data set SASDATA.ORIGIN contains 1000 observations.
+How many observations does the ALLOBS data set contain?
+
+\begin{tabular}{ll}
+A. & 424\\
+B. & 425\\
+C. & 499\\
+D. & 1000
+\end{tabular}
+
+Answer: B
+
+\bigskip
+{\bf Notes}
+
+\begin{enumerate}
+\item
+The number of observations is $499-75+1=425$.
+\end{enumerate}
+
+\newpage
+
+{\bf Question 34}
+
+A raw data file is listed below.
+
+\begin{verbatim}
+John McCloskey 35 71
+June Rosesette 1043
+Tineke Jones 9 37
+\end{verbatim}
+
+The following SAS program is submitted using the raw data file as input.
+
+\begin{verbatim}
+data work.homework;
+infile 'file-specification';
+input name $ age height
+if age LE 10;
+run;
+\end{verbatim}
+
+How many observations will the WORK.HOMEWORK data set contain?
+
+\begin{tabular}{ll}
+A. & 0\\
+B. & 2\\
+C. & 3\\
+D. & No data set is created as the program fails to execute due to errors.
+\end{tabular}
+
+Answer: C
+
+\bigskip
+{\bf Notes}
+
+\begin{enumerate}
+\item
+What happens is the NAME variable only scans the first name.
+Then the AGE variable gets set to ``missing'' because the scanner is
+on the last name.
+According to SAS documentation,
+``A missing numeric value is smaller than any other numeric value.''
+Hence the subsetting if-statement is always true.
+\end{enumerate}
+
+\newpage
+
+{\bf Question 37}
+
+The following SAS program is submitted.
+
+\begin{verbatim}
+data _null_;
+set old;
+put sales1 sales2;
+run;
+\end{verbatim}
+
+Where is the output written?
+
+\begin{tabular}{ll}
+A. & the SAS log\\
+B. & the raw data that was opened last\\
+C. & the SAS output window or an output file\\
+D. & the data set mentioned in the DATA statement
+\end{tabular}
+
+Answer: A
+
+\bigskip
+{\bf Notes}
+
+\begin{enumerate}
+\item
+The DATA \verb$_$NULL\verb$_$ statement does not create a data set,
+but the PUT statement still works.
+Recall that PUT writes to the SAS log.
+\end{enumerate}
+
+\newpage
+
+{\bf Question 38}
+
+When the following SAS program is submitted,
+the data set SASDATA.PRDSALES contains 5000
+observations.
+
+\begin{verbatim}
+libname sasdata 'SAS-data-Iibrary';
+options obs = 500;
+proc print data = sasdata.prdsales (firstobs = 100);
+run;
+options obs = max;
+proc means data = sasdata.prdsales (firstobs = 500);
+run;
+\end{verbatim}
+
+How many observations are processed by each procedure?
+
+\begin{tabular}{ll}
+A. & 400 for PROC PRINT\\
+& 4500 for PROC MEANS\\
+B. & 401 for PROC PRINT\\
+& 4501 for PROC MEANS\\
+C. & 401 for PROC PRINT\\
+& 4500 for PROC MEANS\\
+D. & 500 for PROC PRINT\\
+& 5000 for PROC MEANS
+\end{tabular}
+
+Answer: B
+
+\bigskip
+{\bf Notes}
+
+\begin{enumerate}
+\item
+This program demonstrates that settings such as OBS and FIRSTOBS can
+be set two ways.
+\item
+This program also demonstrates that MAX basically removes the OBS limit.
+\item
+Recall that OBS is the last observation to use and that
+the total number of observations is
+$$\rm OBS-FIRSTOBS+1$$
+\end{enumerate}
+
+\end{document}
